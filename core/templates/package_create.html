@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Package - Tour Management</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #0f172a;
+            --light: #f9fafb;
+            --gray: #6b7280;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --border: #e5e7eb;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --radius: 10px;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f3f4f6 0%, #e5e7eb 100%);
+            min-height: 100vh;
+            padding: 32px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 960px;
+            width: 100%;
+        }
+
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 24px;
+            transition: transform var(--transition);
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-top-left-radius: var(--radius);
+            border-top-right-radius: var(--radius);
+        }
+
+        .card-header h1 {
+            font-size: 1.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card-header h1 i {
+            font-size: 1.5rem;
+        }
+
+        .card-body {
+            padding: 24px;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .message {
+            padding: 12px 16px;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .message.info { background: #eff6ff; color: var(--primary-dark); border-left: 3px solid var(--primary); }
+        .message.success { background: #f0fdf4; color: #065f46; border-left: 3px solid var(--success); }
+        .message.warning { background: #fefce8; color: #92400e; border-left: 3px solid var(--warning); }
+        .message.error { background: #fef2f2; color: #991b1b; border-left: 3px solid var(--danger); }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .form-group label {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--secondary);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .form-group label i {
+            color: var(--primary);
+            font-size: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: white;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+
+        .form-control:invalid:not(:focus) {
+            border-color: var(--danger);
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .file-upload {
+            position: relative;
+        }
+
+        .file-upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px;
+            border: 2px dashed var(--border);
+            border-radius: 6px;
+            background: #f9fafb;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+
+        .file-upload-label i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .file-upload-label span {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .file-upload-label .file-name {
+            margin-top: 8px;
+            color: var(--primary-dark);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .file-upload input[type="file"] {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: #eff6ff;
+        }
+
+        .form-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .preview-section {
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+        }
+
+        .preview-section h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .preview-card {
+            background: #f9fafb;
+            border-radius: 6px;
+            padding: 16px;
+            display: flex;
+            gap: 16px;
+            transition: var(--transition);
+        }
+
+        .preview-card:hover {
+            background: #f3f4f6;
+        }
+
+        .preview-images {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+        }
+
+        .preview-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 6px;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .preview-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .preview-details {
+            flex: 1;
+        }
+
+        .preview-details h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            color: var(--secondary);
+            margin-bottom: 8px;
+        }
+
+        .preview-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .preview-meta div {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+
+        .preview-price {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .no-preview {
+            text-align: center;
+            padding: 32px;
+            color: var(--gray);
+            background: #f9fafb;
+            border-radius: 6px;
+            border: 1px dashed var(--border);
+        }
+
+        .no-preview i {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            color: #d1d5db;
+        }
+
+        @media (max-width: 768px) {
+            .card-body {
+                padding: 16px;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .preview-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .form-footer {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="card-header">
+                <h1><i class="fas fa-suitcase-rolling"></i> Create New Tour Package</h1>
+            </div>
+
+            <div class="card-body">
+                {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <div class="message {% if message.tags %}{{ message.tags }}{% else %}info{% endif %}">
+                        <i class="fas fa-info-circle"></i>
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data" id="packageForm">
+                    {% csrf_token %}
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="title"><i class="fas fa-heading"></i> Package Title</label>
+                            <input type="text" name="title" id="title" class="form-control" placeholder="Ex: Bali Paradise Getaway" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="destination"><i class="fas fa-map-marker-alt"></i> Destination</label>
+                            <input type="text" name="destination" id="destination" class="form-control" placeholder="Ex: Bali, Indonesia" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price"><i class="fas fa-tag"></i> Price ($)</label>
+                            <input type="number" name="price" id="price" class="form-control" step="0.01" min="0" placeholder="Ex: 1299.99" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="duration"><i class="fas fa-calendar-day"></i> Duration (days)</label>
+                            <input type="number" name="duration" id="duration" class="form-control" min="1" placeholder="Ex: 7" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description"><i class="fas fa-align-left"></i> Package Description</label>
+                        <textarea name="description" id="description" class="form-control" placeholder="Describe the tour package in detail..." required></textarea>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="expiry_date"><i class="fas fa-clock"></i> Expiry Date</label>
+                            <input type="datetime-local" name="expiry_date" id="expiry_date" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-images"></i> Package Images</label>
+                            <div class="file-upload">
+                                <label for="images" class="file-upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                    <span>Click to upload package images (multiple)</span>
+                                    <div class="file-name" id="fileName">No files chosen</div>
+                                </label>
+                                <input type="file" name="images" id="images" accept="image/*" multiple>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-section">
+                        <h3><i class="fas fa-eye"></i> Package Preview</h3>
+                        <div class="preview-card" id="previewCard">
+                            <div class="preview-images" id="imagePreview">
+                                <div class="preview-image">
+                                    <i class="fas fa-mountain"></i>
+                                </div>
+                            </div>
+                            <div class="preview-details">
+                                <h4 id="previewTitle">Your Package Title</h4>
+                                <p id="previewDesc">Package description will appear here...</p>
+
+                                <div class="preview-meta">
+                                    <div><i class="fas fa-map-marker-alt"></i> <span id="previewDestination">Destination</span></div>
+                                    <div><i class="fas fa-calendar-day"></i> <span id="previewDuration">0</span> days</div>
+                                    <div><i class="fas fa-clock"></i> <span id="previewExpiry">Expiry date</span></div>
+                                </div>
+
+                                <div class="preview-price">$<span id="previewPrice">0</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus-circle"></i> Create Package
+                        </button>
+
+                        <a href="{% url 'vendor_dashboard' %}" class="btn btn-outline">
+                            <i class="fas fa-arrow-left"></i> Back to Dashboard
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form validation and feedback
+        const form = document.getElementById('packageForm');
+        form.addEventListener('submit', (e) => {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                form.querySelectorAll(':invalid').forEach(input => {
+                    input.parentElement.classList.add('error');
+                });
+            }
+        });
+
+        // Update file names and image preview for multiple images
+        document.getElementById('images').addEventListener('change', function(e) {
+            const fileNameDiv = document.getElementById('fileName');
+            const files = this.files;
+            fileNameDiv.textContent = files.length > 0 ? `${files.length} file(s) selected` : 'No files chosen';
+
+            const imagePreview = document.getElementById('imagePreview');
+            imagePreview.innerHTML = ''; // Clear existing preview
+
+            if (files.length === 0) {
+                const placeholder = document.createElement('div');
+                placeholder.className = 'preview-image';
+                placeholder.innerHTML = '<i class="fas fa-mountain"></i>';
+                imagePreview.appendChild(placeholder);
+                return;
+            }
+
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const previewImage = document.createElement('div');
+                    previewImage.className = 'preview-image';
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = 'Package preview';
+                    img.style.opacity = '0';
+                    previewImage.appendChild(img);
+                    imagePreview.appendChild(previewImage);
+                    setTimeout(() => { img.style.opacity = '1'; img.style.transition = 'opacity 0.3s ease'; }, 10);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        // Live preview with debouncing
+        let timeout;
+        const formFields = ['title', 'description', 'price', 'duration', 'destination', 'expiry_date'];
+        formFields.forEach(field => {
+            const input = document.getElementById(field);
+            if (input) {
+                input.addEventListener('input', () => {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(updatePreview, 300);
+                });
+            }
+        });
+
+        function updatePreview() {
+            document.getElementById('previewTitle').textContent =
+                document.getElementById('title').value || 'Your Package Title';
+
+            document.getElementById('previewDesc').textContent =
+                document.getElementById('description').value || 'Package description will appear here...';
+
+            document.getElementById('previewDestination').textContent =
+                document.getElementById('destination').value || 'Destination';
+
+            document.getElementById('previewDuration').textContent =
+                document.getElementById('duration').value || '0';
+
+            document.getElementById('previewPrice').textContent =
+                document.getElementById('price').value ? parseFloat(document.getElementById('price').value).toFixed(2) : '0';
+
+            const expiryDate = document.getElementById('expiry_date').value;
+            document.getElementById('previewExpiry').textContent = expiryDate ?
+                new Date(expiryDate).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' }) : 'Expiry date';
+        }
+
+        // Set minimum datetime and initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            const minDate = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+            document.getElementById('expiry_date').min = minDate;
+            document.getElementById('expiry_date').value = minDate;
+            updatePreview();
+        });
+    </script>
+</body>
+</html>

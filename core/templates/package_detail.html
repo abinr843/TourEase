@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ package.title }} - Luxury Travels</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a6fb0;
+            --secondary: #2c9e8f;
+            --dark: #0a2d46;
+            --light: #f8f9fa;
+            --accent: #ff7e36;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Package Hero Section */
+        .package-hero {
+            padding: 50px 0;
+            background: linear-gradient(135deg, #1a6fb0 0%, #2c9e8f 100%);
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .package-hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .package-meta {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.1rem;
+        }
+
+        .meta-item i {
+            color: var(--accent);
+        }
+
+        /* Main Content */
+        .package-content {
+            display: grid;
+            grid-template-columns: 7fr 5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .package-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            margin-bottom: 40px;
+        }
+
+        .gallery-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .main-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .main-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .thumbnail-gallery {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .thumbnail {
+            height: 100px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .thumbnail:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .thumbnail.active {
+            border: 3px solid var(--accent);
+            transform: translateY(-5px);
+        }
+
+        /* Package Details */
+        .package-details {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .price-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .price-box .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .price-box .per-person {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .detail-list {
+            margin-bottom: 30px;
+        }
+
+        .detail-item {
+            display: flex;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--light-gray);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .detail-text h4 {
+            margin-bottom: 5px;
+            color: var(--dark);
+        }
+
+        .booking-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-large {
+            padding: 15px 20px;
+            font-size: 1.1rem;
+        }
+
+        .btn-accent {
+            background: var(--accent);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Description Section */
+        .description-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
+        }
+
+        .description-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        /* Included Features */
+        .features-section {
+            margin-bottom: 40px;
+        }
+
+        .features-section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--dark);
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 10px;
+            display: inline-block;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(26, 111, 176, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.3rem;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 992px) {
+            .thumbnail-gallery {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-image {
+                height: 300px;
+            }
+
+            .thumbnail-gallery {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .package-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .package-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .thumbnail-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Package Hero Section -->
+    <section class="package-hero">
+        <div class="container">
+            <h1>{{ package.title }}</h1>
+            <p>Experience the journey of a lifetime</p>
+
+            <div class="package-meta">
+                <div class="meta-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ package.destination }}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>{{ package.duration }} days</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>{% if package.expiry_date %}{{ package.expiry_date|date:"F d, Y" }}{% else %}Available all year{% endif %}</span>
+                </div>
+                <div class="meta-item">
+                    <i class="fas fa-star"></i>
+                    <span>{% if package.rating %}{{ package.rating }} ({{ package.review_count }} Reviews){% else %}No reviews yet{% endif %}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="container">
+        <!-- Main Content -->
+        <div class="package-content">
+            <!-- Left Column - Gallery & Description -->
+            <div class="left-column">
+                <!-- Gallery Section -->
+                <div class="gallery-section">
+                    <h2>Photo Gallery</h2>
+                    <div class="main-image">
+                        {% with first_image=package.images.first %}
+                            {% if first_image %}
+                                <img src="{{ first_image.image.url }}" alt="{{ package.title }}" id="main-image">
+                            {% else %}
+                                <div style="background: #e9ecef; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: var(--gray);">
+                                    <i class="fas fa-image fa-3x"></i>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="thumbnail-gallery">
+                        {% for package_image in package.images.all %}
+                            <div class="thumbnail {% if forloop.first %}active{% endif %}" data-image-url="{{ package_image.image.url }}">
+                                <img src="{{ package_image.image.url }}" alt="{{ package.title }} Image">
+                            </div>
+                        {% empty %}
+                            <div class="thumbnail active" data-image-url="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80">
+                                <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Tour Image">
+                            </div>
+                            <div class="thumbnail" data-image-url="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80">
+                                <img src="https://images.unsplash.com/photo-1473496169904-658ba7c44d8a?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Tour Image">
+                            </div>
+                            <div class="thumbnail" data-image-url="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80">
+                                <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" alt="Tour Image">
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Description Section -->
+                <div class="description-section">
+                    <h2>Overview</h2>
+                    <p>{{ package.description }}</p>
+                    <br>
+                    <p>Immerse yourself in the breathtaking beauty of {{ package.destination }} with our expertly crafted tour. This {{ package.duration }}-day journey takes you through the most iconic landmarks and hidden gems of the region. From the moment you arrive, our dedicated team ensures a seamless experience filled with unforgettable moments.</p>
+                    <br>
+                    <p>Discover the rich cultural heritage, savor local cuisine, and create memories that will last a lifetime. Our carefully curated itinerary balances guided activities with free time for personal exploration, giving you the perfect blend of structure and flexibility.</p>
+                </div>
+
+                <!-- Included Features -->
+                <div class="features-section">
+                    <h2>What's Included</h2>
+                    <div class="features-grid">
+                        <!-- Hardcoded features since the Package model no longer has a features field -->
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-hotel"></i>
+                            </div>
+                            <div>
+                                <h4>Accommodation</h4>
+                                <p>4-star hotels & resorts</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h4>Meals</h4>
+                                <p>Breakfast daily, 5 dinners</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div>
+                                <h4>Transportation</h4>
+                                <p>Private AC vehicles</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <h4>Expert Guide</h4>
+                                <p>Licensed local guide</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Entrance Fees</h4>
+                                <p>All attractions included</p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Travel Insurance</h4>
+                                <p>Comprehensive coverage</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column - Booking & Details -->
+            <div class="right-column">
+                <div class="package-details">
+                    <div class="price-box">
+                        <p>Starting from</p>
+                        <div class="price">{{ package.price }} INR</div>
+                        <p class="per-person">per person</p>
+                    </div>
+
+                    <div class="detail-list">
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="detail-text">
+                                <h4>Destination</h4>
+                                <p>{{ package.destination }}</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="detail-text">
+                                <h4>Duration</h4>
+                                <p>{{ package.duration }} days / {{ package.duration|add:"-1" }} nights</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-calendar-alt"></i>
+                            </div>
+                            <div class="detail-text">
+                                <h4>Next Departure</h4>
+                                <p>{% if package.next_departure %}{{ package.next_departure|date:"F d, Y" }}{% else %}Contact us for dates{% endif %}</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="detail-text">
+                                <h4>Group Size</h4>
+                                <p>{% if package.group_size %}{{ package.group_size }} people{% else %}Small groups (max 12 people){% endif %}</p>
+                            </div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-icon">
+                                <i class="fas fa-hiking"></i>
+                            </div>
+                            <div class="detail-text">
+                                <h4>Activity Level</h4>
+                                <p>{% if package.activity_level %}{{ package.activity_level }}{% else %}Moderate (Suitable for most travelers){% endif %}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="booking-actions">
+                        <a href="{% url 'book_package' package.id %}" class="btn btn-large btn-accent">
+                            <i class="fas fa-calendar-check"></i> Book Now
+                        </a>
+                        <a href="{% url 'package_list' %}" class="btn btn-large btn-outline">
+                            <i class="fas fa-arrow-left"></i> Back to Packages
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Gallery thumbnail click handler
+        document.addEventListener('DOMContentLoaded', function() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImage = document.querySelector('#main-image');
+
+            thumbnails.forEach(thumbnail => {
+                thumbnail.addEventListener('click', function() {
+                    // Remove active class from all thumbnails
+                    thumbnails.forEach(thumb => thumb.classList.remove('active'));
+                    // Add active class to clicked thumbnail
+                    this.classList.add('active');
+                    // Update main image
+                    if (mainImage) {
+                        mainImage.src = this.dataset.imageUrl;
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vendor Registration - Tour Management Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #004d40, #1a2a6c);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            display: flex;
+            max-width: 1100px;
+            width: 100%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .hero-section {
+            flex: 1;
+            background: linear-gradient(rgba(0, 77, 64, 0.85), rgba(0, 77, 64, 0.85)),
+                        url('https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80');
+            background-size: cover;
+            background-position: center;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 77, 64, 0.7);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            list-style: none;
+            margin-top: 30px;
+        }
+
+        .features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+
+        .features i {
+            margin-right: 15px;
+            color: #4CAF50;
+            font-size: 1.5rem;
+            min-width: 30px;
+        }
+
+        .form-section {
+            flex: 1;
+            background: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .logo i {
+            font-size: 2.8rem;
+            color: #004d40;
+            margin-right: 12px;
+        }
+
+        .logo h1 {
+            font-size: 1.9rem;
+            color: #004d40;
+            font-weight: 700;
+        }
+
+        .form-section h2 {
+            font-size: 2rem;
+            color: #004d40;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .form-section p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .vendor-badge {
+            display: inline-block;
+            background: #004d40;
+            color: white;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .messages {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+
+        .messages li {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 18px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .messages li i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 600;
+            color: #444;
+            font-size: 1rem;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 16px 18px 16px 50px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1.05rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #004d40;
+            box-shadow: 0 0 0 4px rgba(0, 77, 64, 0.15);
+            outline: none;
+        }
+
+        .input-icon {
+            position: absolute;
+            left: 18px;
+            top: 45px;
+            color: #777;
+            font-size: 1.2rem;
+        }
+
+        .password-container {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 18px;
+            top: 18px;
+            color: #777;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        button {
+            background: linear-gradient(to right, #004d40, #00796b);
+            color: white;
+            border: none;
+            padding: 17px;
+            font-size: 1.15rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(0, 77, 64, 0.3);
+        }
+
+        button i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        button:hover {
+            background: linear-gradient(to right, #003d32, #00695c);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 77, 64, 0.4);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 25px;
+            color: #555;
+            font-size: 1.05rem;
+        }
+
+        .login-link a {
+            color: #004d40;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .login-link a:hover {
+            color: #00796b;
+            text-decoration: underline;
+        }
+
+        .vendor-benefits {
+            display: flex;
+            margin-top: 25px;
+            background: #f1f8e9;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #4CAF50;
+        }
+
+        .vendor-benefits i {
+            font-size: 1.8rem;
+            color: #4CAF50;
+            margin-right: 15px;
+            min-width: 40px;
+        }
+
+        .benefit-content h3 {
+            color: #004d40;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .benefit-content p {
+            color: #666;
+            font-size: 0.95rem;
+            margin: 0;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                max-width: 600px;
+            }
+
+            .hero-section {
+                padding: 35px 25px;
+            }
+
+            .form-section {
+                padding: 40px 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-section h2 {
+                font-size: 2rem;
+            }
+
+            .form-section h2 {
+                font-size: 1.7rem;
+            }
+
+            .logo h1 {
+                font-size: 1.6rem;
+            }
+
+            .form-group input {
+                padding: 14px 16px 14px 45px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="hero-section">
+            <div class="hero-content">
+                <h2>Expand Your Tour Business</h2>
+                <p>Join our platform to reach thousands of travelers and grow your tour business with our professional vendor tools.</p>
+
+                <ul class="features">
+                    <li><i class="fas fa-chart-line"></i> Access to a large customer base of travel enthusiasts</li>
+                    <li><i class="fas fa-calendar-check"></i> Easy booking and scheduling management</li>
+                    <li><i class="fas fa-file-invoice-dollar"></i> Streamlined payment processing</li>
+                    <li><i class="fas fa-star"></i> Build your reputation with customer reviews</li>
+                    <li><i class="fas fa-mobile-alt"></i> Mobile-ready dashboard for on-the-go management</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <div class="logo">
+                <i class="fas fa-map-marked-alt"></i>
+                <h1>Tour Management Pro</h1>
+            </div>
+
+            <span class="vendor-badge">VENDORS</span>
+            <h2>Vendor Registration</h2>
+            <p>Create your vendor account to start offering your tours and services to our global community.</p>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li><i class="fas fa-exclamation-circle"></i> {{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label for="username">Vendor Username</label>
+                    <i class="fas fa-user-tie input-icon"></i>
+                    <input type="text" id="username" name="username" placeholder="Create your vendor username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Business Email</label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    <input type="email" id="email" name="email" placeholder="yourbusiness@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Secure Password</label>
+                    <div class="password-container">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" name="password" placeholder="Create a strong password" required>
+                        <span class="toggle-password" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit">
+                    <i class="fas fa-user-plus"></i> Register as Vendor
+                </button>
+            </form>
+
+            <div class="vendor-benefits">
+                <i class="fas fa-shield-alt"></i>
+                <div class="benefit-content">
+                    <h3>Vendor Protection</h3>
+                    <p>Our platform includes secure payment processing, cancellation protection, and dispute resolution to ensure your business is protected.</p>
+                </div>
+            </div>
+
+            <p class="login-link">Already have a vendor account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const passwordInput = document.getElementById('password');
+            const togglePassword = document.getElementById('togglePassword');
+            const eyeIcon = togglePassword.querySelector('i');
+
+            togglePassword.addEventListener('click', function() {
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.remove('fa-eye');
+                    eyeIcon.classList.add('fa-eye-slash');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('fa-eye-slash');
+                    eyeIcon.classList.add('fa-eye');
+                }
+            });
+
+            // Add focus effects
+            const inputs = document.querySelectorAll('input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.querySelector('.input-icon').style.color = '#004d40';
+                });
+
+                input.addEventListener('blur', function() {
+                    this.parentElement.querySelector('.input-icon').style.color = '#777';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

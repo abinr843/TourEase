@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Tour Ease</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --secondary: #0d47a1;
+            --accent: #ff6d00;
+            --light: #f5f7fa;
+            --dark: #2d3748;
+            --success: #4caf50;
+            --error: #f44336;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            background: white;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+        .left-panel {
+            flex: 1;
+            background: linear-gradient(rgba(13, 71, 161, 0.85), rgba(26, 35, 126, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%230d47a1" opacity="0.2"/><path d="M20,20 Q40,5 60,20 T100,20 M20,50 Q40,35 60,50 T100,50 M20,80 Q40,65 60,80 T100,80" stroke="%23ffffff" stroke-width="2" fill="none"/></svg>');
+            background-size: cover;
+            color: white;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+        }
+
+        .logo {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: var(--accent);
+        }
+
+        .left-panel h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .left-panel p {
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        .features {
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        .features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+
+        .features i {
+            margin-right: 10px;
+            color: var(--accent);
+            font-size: 18px;
+        }
+
+        .right-panel {
+            flex: 1;
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .right-panel h1 {
+            color: var(--secondary);
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .welcome-text {
+            color: var(--dark);
+            margin-bottom: 30px;
+            font-size: 15px;
+            opacity: 0.8;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #ffeeee;
+            color: var(--error);
+            border-left: 4px solid var(--error);
+            font-size: 14px;
+        }
+
+        .messages li {
+            margin-left: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .input-with-icon {
+            position: relative;
+        }
+
+        .input-with-icon i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #718096;
+            font-size: 18px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 14px 14px 45px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            background-color: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.2);
+        }
+
+        .forgot-password {
+            display: block;
+            text-align: right;
+            margin-top: 5px;
+            font-size: 14px;
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(26, 115, 232, 0.4);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: #718096;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 14px;
+        }
+
+        .register-options {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .register-options a {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .register-user {
+            background-color: #e3f2fd;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .register-vendor {
+            background-color: #fff8e1;
+            color: #ff8f00;
+            margin-left: 10px;
+        }
+
+        .register-user:hover {
+            background-color: #bbdefb;
+        }
+
+        .register-vendor:hover {
+            background-color: #ffecb3;
+        }
+
+        .copyright {
+            text-align: center;
+            margin-top: 30px;
+            font-size: 13px;
+            color: #718096;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                flex-direction: column;
+            }
+
+            .left-panel {
+                padding: 30px 20px;
+            }
+
+            .right-panel {
+                padding: 30px;
+            }
+
+            .register-options {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .register-user, .register-vendor {
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="left-panel">
+            <div class="logo">
+                <i class="fas fa-route"></i>
+                <span>Tour Ease</span>
+            </div>
+            <h2>Streamline Your Tour Management</h2>
+            <p>Welcome back to Tour Ease - your all-in-one solution for managing tours, vendors, and customer experiences.</p>
+
+            <ul class="features">
+                <li><i class="fas fa-check-circle"></i> Manage multiple tours with ease</li>
+                <li><i class="fas fa-check-circle"></i> Connect with vendors and suppliers</li>
+                <li><i class="fas fa-check-circle"></i> Real-time booking management</li>
+                <li><i class="fas fa-check-circle"></i> Customer relationship tools</li>
+                <li><i class="fas fa-check-circle"></i> Analytics and reporting dashboard</li>
+            </ul>
+        </div>
+
+        <div class="right-panel">
+            <h1>Login to Your Account</h1>
+            <p class="welcome-text">Enter your credentials to access your dashboard</p>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" required>
+                    </div>
+                    <a href="#" class="forgot-password">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="divider"><span>or</span></div>
+
+            <p class="register-text">Don't have an account?</p>
+            <div class="register-options">
+                <a href="{% url 'register' %}" class="register-user">
+                    <i class="fas fa-user-plus"></i> Register as User
+                </a>
+                <a href="{% url 'vendor_register' %}" class="register-vendor">
+                    <i class="fas fa-building"></i> Register as Vendor
+                </a>
+            </div>
+
+            <p class="copyright">
+                &copy; 2023 Tour Ease. All rights reserved.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Simple animation for input focus
+        document.querySelectorAll('.form-control').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.style.transform = 'scale(1.02)';
+            });
+
+            input.addEventListener('blur', function() {
+                this.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Add a slight animation to the login button
+        const loginBtn = document.querySelector('.btn-login');
+        loginBtn.addEventListener('mouseenter', () => {
+            loginBtn.style.transform = 'translateY(-3px)';
+        });
+
+        loginBtn.addEventListener('mouseleave', () => {
+            loginBtn.style.transform = 'translateY(0)';
+        });
+    </script>
+</body>
+</html>

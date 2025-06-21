@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TourEase - User Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #1a73e8;
+            --secondary: #0d47a1;
+            --accent: #00c853;
+            --light: #f8f9fa;
+            --dark: #212121;
+            --gray: #5f6368;
+            --light-gray: #f1f3f4;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--primary);
+            margin-right: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .auth-buttons {
+            display: flex;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            margin-right: 15px;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 10px rgba(26, 115, 232, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu {
+            display: none;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Dashboard Sections */
+        .dashboard-section {
+            padding: 50px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .welcome-card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+        }
+
+        .welcome-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+        }
+
+        /* Bookings Table */
+        .bookings-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .bookings-table th,
+        .bookings-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .bookings-table th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+
+        .bookings-table td {
+            color: var(--dark);
+        }
+
+        .bookings-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .bookings-table .status-pending {
+            color: #ffa500;
+            font-weight: 500;
+        }
+
+        .bookings-table .status-confirmed {
+            color: var(--accent);
+            font-weight: 500;
+        }
+
+        .bookings-table .status-cancelled {
+            color: #dc3545;
+            font-weight: 500;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu {
+                display: block;
+            }
+
+            .bookings-table thead {
+                display: none;
+            }
+
+            .bookings-table, .bookings-table tbody, .bookings-table tr, .bookings-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .bookings-table tr {
+                margin-bottom: 15px;
+                border-bottom: 2px solid var(--light-gray);
+            }
+
+            .bookings-table td {
+                text-align: right;
+                padding-left: 50%;
+                position: relative;
+                border-bottom: none;
+            }
+
+            .bookings-table td:before {
+                content: attr(data-label);
+                position: absolute;
+                left: 15px;
+                width: 45%;
+                text-align: left;
+                font-weight: 500;
+                color: var(--gray);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .dashboard-section {
+                padding: 30px 0;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .welcome-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header with Navigation -->
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <i class="fas fa-route"></i>
+                    <h1>TourEase</h1>
+                </div>
+
+                <ul class="nav-links">
+                    <li><a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="{% url 'package_list' %}"><i class="fas fa-map-marked-alt"></i> Tours</a></li>
+
+                    <li><a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About</a></li>
+
+                </ul>
+
+                <div class="auth-buttons">
+                    <a href="{% url 'logout' %}" class="btn btn-outline"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a href="{% url 'user_dashboard' %}" class="btn btn-primary"><i class="fas fa-tachometer-alt"></i> User Dashboard</a>
+                </div>
+
+                <div class="mobile-menu">
+                    <i class="fas fa-bars"></i>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="welcome-card">
+                <h3>Welcome, {{ user.username }}!</h3>
+                <p>Manage your bookings and profile from your personal dashboard.</p>
+                <a href="{% url 'profile_management' %}" class="btn btn-primary" style="margin-top: 20px;">
+                    <i class="fas fa-user-edit"></i> Manage Profile
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bookings Section -->
+    <section class="dashboard-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Your Bookings</h2>
+                <p>View and manage your tour bookings below.</p>
+            </div>
+
+            <table class="bookings-table">
+                <thead>
+                    <tr>
+                        <th>Package</th>
+                        <th>Tour Date</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Payment Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td data-label="Package">{{ booking.package.title }}</td>
+                            <td data-label="Tour Date">{{ booking.tour_date|date:"d M Y" }}</td>
+                            <td data-label="Status" class="status-{{ booking.status }}">
+                                {{ booking.status|capfirst }}
+                            </td>
+                            <td data-label="Amount">₹{{ booking.package.price }}</td>
+                            <td data-label="Payment Status">
+                                {% for payment in payments %}
+                                    {% if payment.booking == booking %}
+                                        {{ payment.status|capfirst }}
+                                    {% endif %}
+                                {% empty %}
+                                    Not Available
+                                {% endfor %}
+                            </td>
+                            <td data-label="Actions">
+                                {% if booking.status == 'pending' %}
+                                    <a href="{% url 'cancel_booking' booking.id %}" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-times"></i> Cancel
+                                    </a>
+                                {% else %}
+                                    <span>-</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="6" style="text-align: center; padding: 20px;">
+                                You have no bookings yet. <a href="{% url 'package_list' %}">Browse packages</a> to book your next tour!
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <script>
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
