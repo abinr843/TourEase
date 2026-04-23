@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 
-SECRET_KEY = 'django-insecure-0sxbxv=tc!e&dzlcwd3wa$&#3k_-&*-8ri9z_bpcvgsid*m4i7'
+SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-0sxbxv=tc!e&dzlcwd3wa$&#3k_-&*-8ri9z_bpcvgsid*m4i7')
 
 
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -43,6 +45,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -85,6 +88,12 @@ DATABASES = {
     }
 }
 
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default'] = dj_database_url.config(
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -122,6 +131,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 AUTH_USER_MODEL = 'core.CustomUser'
 
@@ -131,8 +141,8 @@ AUTH_USER_MODEL = 'core.CustomUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-RAZORPAY_KEY_ID = ''
-RAZORPAY_KEY_SECRET = ''
+RAZORPAY_KEY_ID = os.environ.get('RAZORPAY_KEY_ID', '')
+RAZORPAY_KEY_SECRET = os.environ.get('RAZORPAY_KEY_SECRET', '')
 
 
 MEDIA_URL = '/media/'

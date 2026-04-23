@@ -1,0 +1,8 @@
+django
+razorpay
+django-mathfilters
+mysqlclient
+Pillow
+gunicorn
+whitenoise
+dj-database-url
