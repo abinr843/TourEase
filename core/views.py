@@ -17,7 +17,7 @@ razorpay_client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZOR
 
 def home(request):
     packages = Package.objects.filter(is_approved=True, expiry_date__gt=timezone.now())
-    return render(request, 'home.html', {'packages': packages})
+    return render(request, 'index.html', {'packages': packages})
 
 def about(request):
     return render(request,'about.html')
