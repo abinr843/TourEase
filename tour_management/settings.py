@@ -79,11 +79,22 @@ WSGI_APPLICATION = 'tour_management.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'tour_management',  # Your MySQL database name
+        'USER': 'root',  # Your MySQL username
+        'PASSWORD': 'mysql',  # Your MySQL password
+        'HOST': 'localhost',  # Default is localhost
+        'PORT': '3306',  # Default MySQL port
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
+    }
 }
+
+if os.environ.get('DATABASE_URL'):
+    DATABASES['default'] = dj_database_url.parse(os.environ.get('DATABASE_URL'))
+
 
 
 # Password validation
